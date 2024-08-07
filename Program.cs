@@ -5,4 +5,4 @@ Console.WriteLine("Learn about Delegate");
 Console.WriteLine("----------------------------------");
 
 LearnDelegate learn = new LearnDelegate();
-learn.ShowLogWithType( 0 , "Nguyễn Thành Lãnh");
+learn.Calculation(2, 4, 5);

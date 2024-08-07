@@ -9,50 +9,31 @@ namespace LearnCSharp
 {
     public class LearnDelegate
     {
-        public delegate void ShowLog(string message); // Khai báo delegate dùng để show dữ liệu với kiểu trả về là void và nhận vào một chuỗi string
+        // Minh họa Func
+        public Func<int, int, int> myFunc;  // myFunc lúc này là thuộc tính.
+        //public delegate int MyFunc(int num1, int num2); // ---> MyFunc là một kiểu dữ liệu
 
-        public void ShowLog_Info(string message)
+        public int CalSumTwoNumber(int num1, int num2)
         {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Info: " + message);
-            Console.ResetColor();
+            Console.WriteLine(num1 + "+" + num2);
+            return num1 + num2;
         }
 
-        public void ShowLog_Warning(string message)
+        public int CalSubTwoNumber(int num1, int num2)
         {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Warning: " + message);
-            Console.ResetColor();
+            Console.WriteLine(num1 + "-" + num2);
+            return num1 - num2;
         }
 
-        public void ShowLog_Error(string message)
+        public void Calculation(int type, int a, int b) // type: 1-Cộng  2-Trừ
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Error: " + message);
-            Console.ResetColor();
-        }
-
-        // Excuse
-        public void ShowLogWithType(int type, string myMessage) // 0: Cả ba   1: Info   2: Warning  3: Error
-        {
-            ShowLog showLog;
-            Dictionary<int, ShowLog> functionMap = new Dictionary<int, ShowLog>()
+            Dictionary<int, Func<int, int, int>> listFunc = new Dictionary<int, Func<int, int, int>>
             {
-                { 1, ShowLog_Info },
-                { 2, ShowLog_Warning },
-                { 3, ShowLog_Error },
+                { 1, CalSumTwoNumber },
+                { 2, CalSubTwoNumber },
             };
-            if (type == 0)
-            {
-                showLog = ShowLog_Info;
-                showLog += ShowLog_Warning;
-                showLog += ShowLog_Error;
-            }
-            else
-            {
-                showLog = functionMap[type];
-            }
-            showLog.Invoke(myMessage);
+            myFunc = listFunc[type];
+            Console.WriteLine("Kết quả: " + myFunc(a,b));
         }
     }
 }
