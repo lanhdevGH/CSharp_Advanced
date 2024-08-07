@@ -1,0 +1,1 @@
+Đây là phần ghi chú trong quá trình học. ( bao gồm những trick, những vấn đề cần lưu ý trong quá trình code )
