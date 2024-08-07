@@ -9,31 +9,46 @@ namespace LearnCSharp
 {
     public class LearnDelegate
     {
-        // Minh họa Func
-        public Func<int, int, int> myFunc;  // myFunc lúc này là thuộc tính.
-        //public delegate int MyFunc(int num1, int num2); // ---> MyFunc là một kiểu dữ liệu
+        // Minh họa Action -- tương tự như ví dụ Delegate nhưng lần này chúng ta sẽ dùng Action<string>
+        public Action<string> ShowLog; // Show log lúc này là một properties
+        // Tương đương với việc khai báo:
+        //public delegate void ShowLog(string message);   // --> ShowLog lúc này là một kiểu dữ liệu
 
-        public int CalSumTwoNumber(int num1, int num2)
+        public void ShowLog_Info(string message)
         {
-            Console.WriteLine(num1 + "+" + num2);
-            return num1 + num2;
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("------Info message------");
+            Console.WriteLine(message);
+            Console.ResetColor();
         }
 
-        public int CalSubTwoNumber(int num1, int num2)
+        public void ShowLog_Warning(string message)
         {
-            Console.WriteLine(num1 + "-" + num2);
-            return num1 - num2;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("------Warning message------");
+            Console.WriteLine(message);
+            Console.ResetColor();
         }
 
-        public void Calculation(int type, int a, int b) // type: 1-Cộng  2-Trừ
+        public void ShowLog_Error(string message)
         {
-            Dictionary<int, Func<int, int, int>> listFunc = new Dictionary<int, Func<int, int, int>>
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("------Error message------");
+            Console.WriteLine(message);
+            Console.ResetColor();
+        }
+
+        public void ShowMessageWithType(int type, string message)
+        {
+            Dictionary<int, Action<string>> actionCollect = new Dictionary<int, Action<string>>
             {
-                { 1, CalSumTwoNumber },
-                { 2, CalSubTwoNumber },
+                { 1, ShowLog_Info },
+                { 2, ShowLog_Warning },
+                { 3, ShowLog_Error},
             };
-            myFunc = listFunc[type];
-            Console.WriteLine("Kết quả: " + myFunc(a,b));
+
+            ShowLog = actionCollect[type];  // Không cần khởi tạo một instance mới
+            ShowLog?.Invoke(message);
         }
     }
 }
